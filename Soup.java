@@ -1,63 +1,130 @@
+//Name Danilo Vranic
+//Date 09/28/26
+//Description This class stores the soup letters and company name and lets the user add, remove, and change the letters
 public class Soup {
-    //these are instance variables 
+    //these are instance variables
     private String letters;
     private String company;
 
-    //this is a constructor it sets the instance variables (more on this later in the year)
-    public Soup(){
-        letters ="";
+    // Input none
+    // Output starts with an empty letter pool and company set to none
+    // Precondition none
+    // Postcondition letters is empty and company is set to none
+    public Soup() {
+        letters = "";
         company = "none";
     }
 
-
-    //sets the name of the company to the provided name
-    public void setCompany(String company){
-        this.company = company;
+    // Input a company name
+    // Output sets the company name
+    // Precondition input should be a valid String
+    // Postcondition company stores the new name
+    public void setCompany(String company) {
+        if (company == null || company.trim().isEmpty()) {
+            this.company = "none";
+        } else {
+            this.company = company;
+        }
     }
 
-    //returns the company name
-    public String getCompany(){
+    // Input none
+    // Output returns the company name
+    // Precondition none
+    // Postcondition returns the current company value
+    public String getCompany() {
         return company;
     }
 
-    //returns letters
-    public String getLetters(){
+    // Input none
+    // Output returns the current letters
+    // Precondition none
+    // Postcondition returns the letters string
+    public String getLetters() {
         return letters;
     }
 
-//below are the functions you'll be writing.
-
-    //adds a word to the pool of letters known as "letters"
-    public void add(String word){
-
+    // Input a word or letters to add
+    // Output adds them to the soup letters
+    // Precondition input should be a valid String
+    // Postcondition word is added to letters
+    public void add(String word) {
+        if (word == null) {
+            return;
+        }
+        letters += word;
     }
 
-
-    //Use Math.random() to get a random character from the letters string and return it.
-    public char randomLetter(){
-        return 'a';
+    // Input none
+    // Output returns a random letter from the letters string
+    // Precondition letters must contain at least one character
+    // Postcondition returns one random letter from letters
+    public char randomLetter() {
+        if (letters == null || letters.length() == 0) {
+            return '\0';
+        }
+        int index = (int) (Math.random() * letters.length());
+        return letters.charAt(index);
     }
 
-
-    //returns the letters currently stored with the company name placed directly in the center of all
-    //the letters
-    public String companyCentered(){
-        return "";
+    // Input none
+    // Output puts the company name in the middle of the letters
+    // Precondition letters and company may be empty
+    // Postcondition company is centered inside letters
+    public String companyCentered() {
+        if (letters == null) {
+            letters = "";
+        }
+        if (company == null) {
+            company = "";
+        }
+        if (company.length() == 0) {
+            return letters;
+        }
+        int middle = letters.length() / 2;
+        return letters.substring(0, middle) + company + letters.substring(middle);
     }
 
-
-    //should remove the first available vowel from letters. If there are no vowels this method has no effect.
-    public void removeFirstVowel(){
-        
+    // Input none
+    // Output removes the first vowel in the letters
+    // Precondition letters may be empty
+    // Postcondition the first vowel is removed if it exists
+    public void removeFirstVowel() {
+        if (letters == null || letters.length() == 0) {
+            return;
+        }
+        String vowels = "aeiouAEIOU";
+        for (int i = 0; i < letters.length(); i++) {
+            if (vowels.indexOf(letters.charAt(i)) != -1) {
+                letters = letters.substring(0, i) + letters.substring(i + 1);
+                return;
+            }
+        }
     }
 
-    //should remove "num" letters from a random spot in the string letters. You may assume num never exceeds the length of the string.
-    public void removeSome(int num){
-
+    // Input a number of letters to remove
+    // Output removes that many random letters
+    // Precondition num is a valid integer and should not be larger than letters
+    // Postcondition num letters are removed from a random spot
+    public void removeSome(int num) {
+        if (letters == null || letters.length() == 0 || num <= 0) {
+            return;
+        }
+        if (num >= letters.length()) {
+            letters = "";
+            return;
+        }
+        int start = (int) (Math.random() * (letters.length() - num + 1));
+        letters = letters.substring(0, start) + letters.substring(start + num);
     }
 
-    //should remove the word "word" from the string letters. If the word is not found in letters then it does nothing.
-    public void removeWord(String word){
-        
+    // Input a word to remove
+    // Output removes that word from the letters if it is there
+    // Precondition word should be a valid String
+    // Postcondition the word is removed from letters if present
+    public void removeWord(String word) {
+        if (word == null || word.isEmpty() || letters == null) {
+            return;
+        }
+        letters = letters.replace(word, "");
     }
 }
